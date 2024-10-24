@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo doubleslider</title>
+    <link rel="stylesheet" type="text/css" href="../css/doubleslider.css" /> 
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+</head>
+<body>
+    <br>
+    <a class="column-chart__link" href="../index.html">BACK</a>
+    <br>
+<div class="container">
+	<div class="slider-value inline">
+		<h2 id="title-min" class="slider-value__title">0</h2>
+		<h2 id="title-text" class="slider-value__title">Static Range</h2>
+		<h2 id="title-max" class="slider-value__title">200</h2>
+	</div>
+	<div class="double-slider inline">
+		<div class="double-slider__body">
+			<div class="double-slider__track">
+				<div id="slider-range" class="double-slider__range"></div>
+				<div id="dot-left" class="double-slider__dot double-slider__dot--left"></div>
+				<div id="dot-right" class="double-slider__dot double-slider__dot--right"></div>
+			</div>
+			<input id="input_left"  min="0" max="200" value="50"  type="range" class="double-slider__input"/>
+			<input id="input_right" min="0" max="200" value="150" type="range" class="double-slider__input"/>
+		</div>
+	</div>
+</div>
+<br>
+<button id="AddButton" type="button">Add Slider</button>
+<br>
+
+</body>
+<script defer type="module">
+import DoubleSlider from "../js/DoubleSlider.js";
+function AddSliderFunction() {
+	        const randomNumber = Math.floor(Math.random() * 1000) + 1;
+	        const newSlider = new DoubleSlider(0, randomNumber, "Range " + randomNumber);
+/*
+			newSlider.inputLeft.addEventListener('input',  newSlider.setLeftValue);
+            newSlider.inputRight.addEventListener('input', newSlider.setRightValue);
+			const event = new Event("input");
+            newSlider.inputLeft.dispatchEvent(event);
+            newSlider.inputRight.dispatchEvent(event);
+*/			
+			
+                             }
+document.querySelector('#AddButton').addEventListener('click', AddSliderFunction);
+
+
+const titleMin = document.getElementById("title-min");
+const titleMax = document.getElementById("title-max");
+
+const inputLeft = document.getElementById("input_left");
+const inputRight = document.getElementById("input_right");
+inputLeft.value = 50;
+inputRight.value = 150;
+
+const dotLeft = document.getElementById("dot-left");
+const dotRight = document.getElementById("dot-right");
+
+const sliderRange = document.getElementById("slider-range");
+
+
+function setLeftValue () {
+	let value = this.value;
+	let min = parseInt(this.min);
+	let max = parseInt(this.max);
+
+	value = Math.min(parseInt(value), parseInt(inputRight.value) - 1);
+	
+	const percent = ((value - min) / (max - min)) * 100;
+	
+	sliderRange.style.left = percent + '%';
+	dotLeft.style.left = percent + '%';
+	titleMin.innerText = value; 
+                          }
+
+function setRightValue () {
+
+	let value = this.value;
+	let min = parseInt(this.min);
+	let max = parseInt(this.max);
+
+	value = Math.max(parseInt(value), parseInt(inputLeft.value) + 1);
+	
+	const percent = ((value - min) / (max - min)) * 100;
+	
+	sliderRange.style.right = (100 - percent) + '%';
+	dotRight.style.right = (100 - percent) + '%';
+	titleMax.innerText = value; 
+
+                          }
+
+inputLeft.addEventListener('input', setLeftValue);
+inputRight.addEventListener('input', setRightValue);
+
+const event = new Event("input");
+inputLeft.dispatchEvent(event);
+inputRight.dispatchEvent(event);
+</script> 
+</html>

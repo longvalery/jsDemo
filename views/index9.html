@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Строчка, которая делает магию-->
+    <title>ColumnChart</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+    <style>
+     
+    </style>
+  </head>
+
+  <body>
+    <div class="dashboard__charts">
+      <div id="orders" class="dashboard__chart_orders"></div>
+      <div id="sales" class="dashboard__chart_sales"></div>
+      <div id="customers" class="dashboard__chart_customers"></div>
+    </div>
+    <br>
+<h4>Select date range</h4>
+<div class="inline-block">
+    <label class="inline-element" for="startDate" class="labelDate">From:</label>
+    <input class="inline-element inputDate" type="date" id="startDate" name="date-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+    <label class="inline-element" for="endDate" class="labelDate">To:</label>
+    <input class="inline-element inputDate" type="date" id="endDate" name="date-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+</div>
+    <br>
+    <br>
+    <h4>For more detailed information, simply move the cursor to the graph panel</h4>
+    <br>
+    <br>
+    <a class="column-chart__link" href="../index.html">BACK</a>
+    <!-- Toast -->
+    <div class="toast" hidden style="position: absolute;">
+      <div class="toast-icon"></div>
+      <div class="toast-message"></div>
+    <!--  <button class="toast-close" title="button-toast-close"></button> -->
+    </div> 
+    <!-- /Toast -->
+
+    
+  </body>
+    <script type="module">
+      import ColumnChartV2 from "../js/ColumnChartV2.js";
+
+
+      function setDateToDatePicker(id) {
+           const element = document.getElementById(id);
+           const today = new Date();
+           element.valueAsDate = today;
+           element.setAttribute("max", today.toISOString().split('T'));
+           today.setDate(today.getMonth() - 12);
+           element.setAttribute("min", today.toISOString().split('T'));
+                                       } 
+
+      function renderElement(chart, id, className, element) {
+               chart.render();
+               chart.element.id = id;
+               chart.element.querySelector('.column-chart__chart').classList.add(className);
+               element.replaceWith(chart.element);
+                                             }
+
+      function updateData() {
+           removeListenersForDashboard();
+           ordersChart.element.classList.add('column-chart_loading');
+           salesChart.element.classList.add('column-chart_loading');
+           customersChart.element.classList.add('column-chart_loading');
+           const elementFrom = document.getElementById("startDate");
+           const elementTo   = document.getElementById("endDate");
+           ordersChart.getDataFromURL(elementFrom.value, elementTo.value, renderElement, ordersChart, "orders", "dashboard__chart_orders", orders, setListenersForDashboard);
+           salesChart.getDataFromURL(elementFrom.value, elementTo.value, renderElement, salesChart, "sales", "dashboard__chart_sales", sales, setListenersForDashboard);
+           customersChart.getDataFromURL(elementFrom.value, elementTo.value, renderElement, customersChart, "customers", "dashboard__chart_customers", customers, setListenersForDashboard);
+                            }
+
+
+     function changeColor(event) {
+            let toast = document.querySelector(".toast");
+            event.srcElement.style.background = event.srcElement["old_color"];
+            toast.hidden = false;
+                                 }
+
+     function displayInfo(event) {
+         let x = event.clientX;
+         let y = event.clientY;
+         event.srcElement["old_color"] = event.srcElement.style.background;
+         // let color =  convert.rgbToRgba(e.srcElement.style.background , 0.5) ;
+
+         event.srcElement.style.background = "rgb(127,127,127)";
+         let data_value = event.srcElement.getAttribute('data-value').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + "\n" + event.srcElement.getAttribute('data-key');
+         showToast(data_value, "../assets/info.svg" , { duration: 4000, x: x + 15 , y: y + 15 });
+         
+                                 }
+
+     function setListenersForDashboard(){
+      const allItems = document.getElementsByClassName("column-chart__item");
+      for (let i = 0; i < allItems.length; i++) {
+         allItems[i].addEventListener("mouseover", displayInfo);
+         allItems[i].addEventListener("mouseout", changeColor);
+                                                }
+                                        }
+
+     function removeListenersForDashboard(){
+      const allItems = document.getElementsByClassName("column-chart__item");
+      for (let i = 0; i < allItems.length; i++) {
+         allItems[i].removeEventListener("mouseover", displayInfo);
+         allItems[i].removeEventListener("mouseout", changeColor);
+                                                }
+                                           }
+
+      setDateToDatePicker("startDate");
+      setDateToDatePicker("endDate");
+
+      const Data = [];
+    
+      const ordersChart = new ColumnChartV2({
+        data: Data,
+        label: "orders",
+        value: 0,
+        link: "../views/NotImplemented1.php"
+      });
+
+      const salesChart = new ColumnChartV2({
+        data: Data,
+        label: "sales",
+        value: 0,
+        link: "../views/NotImplemented1.php"
+      });
+
+      const customersChart = new ColumnChartV2({
+        data: Data,
+        label: "customers",
+        value: 0,
+        link: "../views/NotImplemented1.php"
+      });
+
+      ordersChart.setBaseURL('https://course-js.javascript.ru/api/dashboard/orders?from=2024-02-21T18%3A28%3A33.278Z&to=2024-03-22T18%3A28%3A33.278Z');
+      salesChart.setBaseURL('https://course-js.javascript.ru/api/dashboard/sales?from=2024-02-21T18%3A28%3A33.278Z&to=2024-03-22T18%3A28%3A33.278Z');
+      customersChart.setBaseURL('https://course-js.javascript.ru/api/dashboard/customers?from=2024-02-21T18%3A28%3A33.278Z&to=2024-03-22T18%3A28%3A33.278Z');
+
+      ordersChart.render();
+      salesChart.render();
+      customersChart.render();
+
+      orders.append(ordersChart.element);
+      sales.append(salesChart.element);
+      customers.append(customersChart.element);
+
+      setListenersForDashboard();
+
+      const allInputDateItems = document.getElementsByClassName("inputDate");
+      for (let i = 0; i < allInputDateItems.length; i++) {
+          allInputDateItems[i].addEventListener("change", (event) => { updateData(); });
+                                                         }
+
+
+
+    </script>
+    <script src="../js/scripts.js" defer></script>
+</html>

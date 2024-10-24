@@ -1,0 +1,39 @@
+<!doctype html>
+<meta charset="UTF-8">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <link rel="icon" type="image/png" href="../assets/favicon.ico">
+</head>
+<body>
+<br>
+<br>
+<br>
+<button id="btn1">Show simple message!</button>
+<br>
+<br>
+<br>
+<button id="btn2">Show error message!</button>
+<br>
+<br>
+<a class="column-chart__link" href="../index.html">BACK</a>
+</body>
+<script type="module">
+  import NotificationMessage from '../js/NotificationMessage.js ';
+
+  btn1.addEventListener('click', () => {
+    const notification = new NotificationMessage('Hello World', {
+      duration: 2000,
+      type: 'success'
+    });
+    notification.show();
+                                       });
+  btn2.addEventListener('click', () => {
+    const notification = new NotificationMessage('Error', {
+      duration: 2000,
+      type: 'error'
+    });
+    notification.show();
+                                       });
+
+</script>

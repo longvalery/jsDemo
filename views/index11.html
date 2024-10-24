@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Строчка, которая делает магию-->
+    <title>Product</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+  
+  </head>
+
+<body>
+  <br>
+      <a class="column-chart__link" href="../index.html">BACK</a>
+  <br>
+  <div>
+    <span style="margin-left:20px;">
+      <button id="AddGoodsButton"  type="button">Form for goods</button>
+    </span>
+    <span style="margin-left:20px;">
+      <button id="AddGoods1Button"  type="button">Form for goods</button>
+    </span>
+    <span style="margin-left:20px;">
+      <button id="AddEmptyButton" type="button">Empty Form</button>
+    </span>  
+  </div>  
+  <br>
+  <br>
+</body>
+<script type="module">
+  import ProductForm from "../js/ProductForm.js";
+  import NotificationMessage from '../js/NotificationMessage.js ';
+
+  let form = null; 
+  //  ('101-planset-lenovo-tab-p10-tb-x705l-32-gb-3g-lte-belyj')
+  // 173-noutbuk-msi-gl75-9sck-011ru-cernyj
+  document.querySelector("#AddGoodsButton").addEventListener("click", AddProductFormFunction); 
+  document.querySelector("#AddGoods1Button").addEventListener("click", AddProductForm1Function); 
+  document.querySelector("#AddEmptyButton").addEventListener("click", AddEmptyProductFormFunction); 
+  
+  document.body.addEventListener("product-saved", (event) => { 
+    console.log("product-saved", event.currentValues); 
+    const notification = new NotificationMessage("product-saved", {duration:  4_000, type: 'success' });
+    notification.show();
+                                                        }); 
+
+  document.body.addEventListener("product-updated", (event) => { 
+    console.log("product-updated", event.currentValues); 
+    const notification = new NotificationMessage("product-updated", {duration:  4_000, type: 'success' });
+    notification.show();
+                                                        }); 
+
+  document.body.addEventListener("needLoadPhoto", (event) => { 
+    console.log("needLoadPhoto", event); 
+    const notification = new NotificationMessage("needLoadPhoto", {duration:  4_000, type: 'success' });
+    notification.show();
+                                                        }); 
+
+  document.body.addEventListener("deletePhotoItem", (event) => { 
+    console.log("deletePhotoItem", event); 
+    const notification = new NotificationMessage("deletePhotoItem", {duration:  4_000, type: 'success' });
+    notification.show();
+                                                        }); 
+
+  document.body.addEventListener("movePhotoItem", (event) => { 
+    console.log("movePhotoItem", event); 
+    const notification = new NotificationMessage("movePhotoItem", {duration:  4_000, type: 'success' });
+    notification.show();
+                                                        }); 
+
+  
+  function AddEmptyProductFormFunction(){
+    if (form != null) { form.destroy() };
+    form = new ProductForm();
+                                     }
+
+  function AddProductFormFunction(){
+    if (form != null) { form.destroy() };
+    form = new ProductForm('101-planset-lenovo-tab-p10-tb-x705l-32-gb-3g-lte-belyj');
+                                     }
+
+  function AddProductForm1Function(){
+    if (form != null) { form.destroy() };
+    form = new ProductForm('173-noutbuk-msi-gl75-9sck-011ru-cernyj');
+                                     }
+
+</script>
+
+</html>

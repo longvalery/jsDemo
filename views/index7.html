@@ -1,0 +1,33 @@
+<!doctype html>
+<meta charset="UTF-8">
+<title>Tooltip</title>
+
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/toast.css" />
+<link rel="icon" type="image/png" href="../assets/favicon.ico">
+
+<body>
+<br>
+<a class="column-chart__link" href="../index.html">BACK</a>
+<br>
+
+  <div data-tooltip="foo">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi enim esse sapiente.
+    Necessitatibus praesentium similique voluptatem.
+    <div data-tooltip="bar-bar-bar">
+      Aperiam consectetur dignissimos dolores ex mollitia.
+    </div>
+    Alias aliquid animi corporis debitis, eveniet explicabo facilis hic laborum magni nisi nulla
+    numquam odio omnis quaerat quas quia, reiciendis repellat repellendus sint sit soluta suscipit
+    temporibus voluptate.
+  </div>
+  <script type="module">
+    import Tooltip from '../js/Tooltip.js';
+
+    const tooltip = new Tooltip();
+                    
+    tooltip.initialize();
+  </script>
+</body>
+
+

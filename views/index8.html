@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Строчка, которая делает магию-->
+    <title>ColumnChart</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+    <style>
+     
+    </style>
+  </head>
+
+<body>
+<div id='preloader'>
+    <img src="../assets/preloader.gif" alt="preloader">
+</div>
+<script>
+  window.onload = function() {
+    let preloader = document.getElementById('preloader');
+    preloader.classList.add('hide-preloader');
+    setInterval(function() { preloader.classList.add('preloader-hidden'); }, 990);
+                             }
+
+</script>
+<div>
+	<a class="column-chart__link" href="../index.html">BACK</a>
+	<br>
+	<div>
+		<label for="sort-select">Сортировка на:</label>
+		<select name="sort-select" id="sort-select" class="sticky_class">
+			<option value="server">Сервере</option>
+	 		<option value="client">Клиенте</option>
+		</select>
+	</div>
+</div>
+<div id="root"></div>
+</body>
+<script type="module">
+  import SortableTableV3 from '../js/SortableTableV3.js';
+
+  let data = [];
+
+  const headerConfig = [
+    {
+      id: 'images',
+      title: 'Image',
+      sortable: false,
+      template: (data = []) => {
+        return `
+          <div class="sortable-table__cell">
+            <img class="sortable-table-image" alt="Image" src="${data[0]?.url || 'https://via.placeholder.com/32'}">
+          </div>
+        `;
+      }
+    },
+    {
+      id: 'title',
+      title: 'Name',
+      sortable: true,
+      sortType: 'string'
+    },
+    {
+      id: 'quantity',
+      title: 'Quantity',
+      sortable: true,
+      sortType: 'number'
+    },
+    {
+      id: 'price',
+      title: 'Price',
+      sortable: true,
+      sortType: 'number'
+    },
+    {
+      id: 'sales',
+      title: 'Sales',
+      sortable: true,
+      sortType: 'number'
+    },
+  ];
+
+ 
+
+  const sortableTable = new SortableTableV3(headerConfig, data);
+  const fieldValue = "title";
+  const orderValue = "asc";
+//  sortableTable.changeSorting("server");
+  sortableTable.sort(fieldValue, orderValue, 1, 30);
+  const selector = document.body.querySelector('#sort-select');
+  selector.addEventListener('change', function(evt) {
+                   sortableTable.changeSorting(this.value)
+                                                    });
+  root.append(sortableTable.element);
+//  sortableTable.setOnclickHandle(sortableTable);
+  document.body.addEventListener("startLoad", function() {
+    const preloader = document.getElementById('preloader');
+    preloader.classList.remove('hide-preloader');
+    preloader.classList.remove('preloader-hidden');
+                                                          });
+
+  document.body.addEventListener("endLoad",  function() {
+    const preloader = document.getElementById('preloader');
+    preloader.classList.add('hide-preloader');
+    preloader.classList.add('preloader-hidden');
+//    setInterval(function() { preloader.classList.add('preloader-hidden');  }, 990);
+                                                          });
+
+
+window.addEventListener('scroll', () => {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        if (scrollTop + clientHeight >= scrollHeight - 20) { sortableTable.uploadData(); }
+                                        }, { passive: true });
+</script>
+</html>

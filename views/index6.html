@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo doubleslider</title>
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="../css/doubleslider.css" /> 
+    <link rel="stylesheet" type="text/css" href="../css/slider.css" /> 
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+<br>
+<a class="column-chart__link" href="../index.html">BACK</a>
+<br>
+<br>
+<br>
+<button id="AddButton" type="button">Add Slider</button>
+<br>
+
+</body>
+<script defer type="module">
+import DoubleSlider from "../js/Sliders.js";
+import NotificationMessage from '../js/NotificationMessage.js ';
+
+const doubleSlider = new DoubleSlider(0, 1000, 'Price');
+
+function AddSliderFunction() {
+    const randomNumber = Math.floor(Math.random() * 1000) + 1;
+    const newSlider = new DoubleSlider(0, randomNumber, "Price " + randomNumber);
+                             }
+
+document.getElementById('AddButton').onclick = AddSliderFunction;
+
+document.body.addEventListener('overloadData', (event) => {
+    const text = "Загрузить c " +  event.dataForOverload.from + " до " + event.dataForOverload.to + "<br>для " + event.dataForOverload.text;
+    const notification = new NotificationMessage(text, {
+      duration: 2000,
+      type: 'success'
+    });
+    notification.show();
+                                                          });
+
+</script> 
+</html>

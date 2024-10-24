@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Строчка, которая делает магию-->
+    <title>DatePicker</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+  </head>
+
+  <body>
+    <br>
+    <a class="column-chart__link" href="../index.html">BACK</a>
+<br>
+<button id="AddButton" type="button">Add Calendar</button>
+<br>
+    <br>
+  </body>
+    <script type="module">
+       import RangeDatePicker from "../js/RangeDatePicker.js";
+       import NotificationMessage from '../js/NotificationMessage.js ';
+
+       document.body.addEventListener("needLoad", (event) => { 
+          const line = event.strDateStart + " по " + event.strDateEnd;  
+          const notification = new NotificationMessage(line, {duration: 2000, type: 'success' });
+          notification.show();
+                                                             });
+
+       AddCalendarFunction();
+
+       document.querySelector('#AddButton').addEventListener('click', AddCalendarFunction);
+
+       function AddCalendarFunction(){
+          const date = new Date();
+          const range = new RangeDatePicker(date.toISOString().split('T')[0]);
+                                     }
+    </script>
+</html>

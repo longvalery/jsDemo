@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Строчка, которая делает магию-->
+    <title>ColumnChart</title>
+<!--    <link rel="stylesheet" href="variables.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+    <style>
+     
+    </style>
+  </head>
+
+  <body>
+    <div class="dashboard__charts">
+      <div id="orders" class="dashboard__chart_orders"></div>
+      <div id="sales" class="dashboard__chart_sales"></div>
+      <div id="customers" class="dashboard__chart_customers"></div>
+    </div>
+    <br>
+    <br>
+    <a class="column-chart__link" href="../index.html">BACK</a>
+    <!-- Toast -->
+    <div class="toast" hidden style="position: absolute;">
+      <div class="toast-icon"></div>
+      <div class="toast-message"></div>
+    <!--  <button class="toast-close" title="button-toast-close"></button> -->
+    </div> 
+    <!-- /Toast -->
+
+    
+  </body>
+
+    <script type="module">
+      import ColumnChart from "../js/index.js";
+
+      const ordersData = [];
+   //   const ordersData =    [60,  30, 40, 5,  55, 75];
+      const salesData =     [30,  40, 20, 80, 35, 15];
+      const customersData = [100, 90, 80, 35, 90, 25];
+
+      const ordersChart = new ColumnChart({
+        data: ordersData,
+        label: "orders",
+        value: 344,
+        link: "../views/NotImplemented.php"
+      });
+      ordersChart.updateSummaryValue(); // ["value"] = ordersChart["data"].reduce((sum, current) => sum + current, 0); 
+      ordersChart.render();
+
+      const salesChart = new ColumnChart({
+        data: salesData,
+        label: "sales",
+        value: "$243,437",
+        link: "../views/info.php"
+      });
+      salesChart.updateSummaryValue(); 
+      salesChart.render();
+
+      const customersChart = new ColumnChart({
+        data: customersData,
+        label: "customers",
+        value: 321,
+        link: "../views/NotImplemented.php"
+      });
+      customersChart.updateSummaryValue(); 
+      customersChart.render();
+
+      orders.append(ordersChart.element);
+      sales.append(salesChart.element);
+      customers.append(customersChart.element);
+
+      ////////////////
+
+      const allItems = document.getElementsByClassName("column-chart__item");
+        for (let i = 0; i < allItems.length; i++) {
+           allItems[i].addEventListener("mouseover", function(e) { // mousemove
+           
+             let x = e.clientX;
+             let y = e.clientY;
+             
+             e.srcElement["old_color"] = e.srcElement.style.background;
+             //console.log("save e.srcElement", e.srcElement["old_color"]);
+             //console.log("e.srcElement.style", e.srcElement.style);
+             // let color =  convert.rgbToRgba(e.srcElement.style.background , 0.5) ;
+
+             e.srcElement.style.background = "rgb(127,127,127)";
+             let data_value = e.srcElement.getAttribute('data-value');
+             //console.log("mouseover x:" + x + " y:" + y);
+             //console.log("e", e);
+             showToast(data_value, "../assets/info.svg" , { duration: 2000, x: x + 15 , y: y + 15 }); 
+                                                                 });
+          allItems[i].addEventListener("mouseout", function(e) {
+            let toast = document.querySelector(".toast");
+            //console.log("restore e.srcElement", e.srcElement["old_color"]);
+            e.srcElement.style.background = e.srcElement["old_color"];
+            toast.hidden = false;
+                                                                 });
+                                                  }
+
+    </script>
+    <script src="../js/scripts.js" defer></script>
+</html>
